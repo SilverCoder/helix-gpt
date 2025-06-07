@@ -1,6 +1,5 @@
 { stdenv
 , lib
-, mkYarnModules
 , makeBinaryWrapper
 , bun
 , ...
@@ -8,14 +7,6 @@
 let
   version = (builtins.fromJSON (builtins.readFile ./package.json)).version;
 
-  node_modules = mkYarnModules {
-    pname = "helix-gpt_${version}";
-    inherit version;
-
-    packageJSON = ./package.json;
-    yarnLock = ./yarn.lock;
-    yarnNix = ./yarn.nix;
-  };
 in
 stdenv.mkDerivation {
   name = "helix-gpt_${version}";
@@ -26,15 +17,6 @@ stdenv.mkDerivation {
   doCheck = true;
   nativeBuildInputs = [ makeBinaryWrapper ];
   buildInputs = [ bun ];
-
-  configurePhase = ''
-    runHook preConfigure
-            
-    mkdir -p $out/bin
-    ln -s ${node_modules}/node_modules $out
-
-    runHook postConfigure
-  '';
 
   checkPhase = ''
     runHook preCheck
@@ -47,6 +29,7 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
 
+    mkdir -p $out/bin
     cp -R ./* $out
 
     makeBinaryWrapper ${bun}/bin/bun $out/bin/helix-gpt \
