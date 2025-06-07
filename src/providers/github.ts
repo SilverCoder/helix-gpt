@@ -105,8 +105,8 @@ export default class Github extends ApiBase {
       "Content-Type": "application/json; charset=utf-8",
       "User-Agent": "helix/1.0.0",
       Authorization: `Bearer ${this.copilotSession?.raw}`,
-      "Editor-Plugin-Version": "helix-gpt/1.0.0",
-      "Editor-Version": "helix/1.0.0",
+      "Editor-Plugin-Version": "copilot-chat/0.24.1",
+      "Editor-Version": "vscode/1.99",
       "Openai-Intent": "conversation-panel",
       "Openai-Organization": "github-copilot",
       "VScode-MachineId": genHexStr(64),
@@ -157,8 +157,8 @@ export default class Github extends ApiBase {
       "Content-Type": "application/json; charset=utf-8",
       "User-Agent": "helix/1.0.0",
       Authorization: `Bearer ${this.copilotSession?.raw}`,
-      "Editor-Plugin-Version": "helix-gpt/1.0.0",
-      "Editor-Version": "helix/1.0.0",
+      "Editor-Plugin-Version": "copilot-chat/0.24.1",
+      "Editor-Version": "vscode/1.99",
       "Openai-Intent": "copilot-ghost",
       "Openai-Organization": "github-copilot",
       "VScode-MachineId": genHexStr(64),
@@ -210,8 +210,8 @@ export default class Github extends ApiBase {
       body,
       headers,
       text: true,
-      url: "https://copilot-proxy.githubusercontent.com",
-      endpoint: "/v1/engines/copilot-codex/completions",
+      url: "https://proxy.individual.githubcopilot.com",
+      endpoint: "/v1/engines/gpt-4o-copilot/completions",
     });
 
     return types.Completion.fromResponse(data);
