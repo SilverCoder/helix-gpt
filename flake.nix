@@ -13,18 +13,6 @@
           };
 
           package = pkgs.callPackage ./package.nix { };
-
-          yarn2nix = pkgs.writeShellApplication {
-            name = "yarn2nix";
-            runtimeInputs = [
-              pkgs.bun
-              pkgs.yarn2nix
-            ];
-            text = ''
-              bun install --frozen-lockfile
-              yarn2nix > yarn.nix
-            '';
-          };
         in
         {
           apps =
@@ -49,8 +37,6 @@
           devShells.default = with pkgs; mkShell {
             packages = [
               bun
-              # This is the wrapped flake yarn2nix
-              yarn2nix
             ];
           };
         })
